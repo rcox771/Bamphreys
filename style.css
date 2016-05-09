@@ -1,0 +1,80 @@
+/* fallback */
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Material Icons'), local('MaterialIcons-Regular'), url(https://fonts.gstatic.com/s/materialicons/v16/2fcrYFNaTjcS6g4U3t-Y5ZjZjT5FdEJ140U2DJYC3mY.woff2) format('woff2');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -moz-font-feature-settings: 'liga';
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.mdl-data-table td {
+    position: relative;
+    height: 48px;
+    //border-top: 1px solid rgba(0,0,0,.12);
+    border-top:inherit!important;
+    border-bottom:inherit!important;
+    //border-bottom: 1px solid rgba(0,0,0,.12);
+    padding: 12px 18px;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+.t-category {
+  color: rgb(233, 30, 99);
+  //border-bottom: none;
+  text-transform: uppercase;
+  
+}
+
+tr {
+  //border-width:0px!important;
+  //border-bottom:none!important;
+  //border-top:none!important;
+  //color:blue;
+}
+
+tr .cRow {
+  
+  //border-top:none!important;
+  //color:blue!important;
+}
+
+.wtf .first-in-category {
+  border-top: 1px solid rgba(0,0,0,.05)!important;
+  
+}
+
+.spacer {
+  height: 10px!important;
+}
+
+.kewl-button {
+  min-height:100px!important;
+  min-width: 100%!important;
+}
+
+#wtfman {
+  display:inline-block!important;
+}
+
+.col {
+  margin:none!important;
+  padding:10px!important;
+  padding-bottom:0px!important;
+}
+
