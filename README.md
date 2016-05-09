@@ -1,11 +1,12 @@
 # Bamphreys
+The best Bus App for getting around on Camp Humphreys.
 
-The best Bus App for getting around on Camp Humphreys, South Korea
+## Acknowledgment
+This would not have been possible without the support from my 3rd MI Battalion extended family. Thanks for giving me the encouragement to see this through!
 
-## Motivation
+    Anonymous Soldier:
+    > Hey Sergeant, I thought you said you were going to release the app this weekend >.>
 
-
-## Credits
 
 ## Dependencies
 
@@ -14,7 +15,9 @@ The best Bus App for getting around on Camp Humphreys, South Korea
 * Materializecss
 
 
-## Getting started
+## TODO
+
+* add the weekend schedule in
 
 
 
