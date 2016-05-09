@@ -13,6 +13,7 @@ This would not have been possible without the support from my 3rd MI Battalion e
 * Knockout
 * Underscore
 * Materializecss
+* Font-Awesome
 
 
 ## TODO
