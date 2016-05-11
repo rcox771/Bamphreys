@@ -6,7 +6,6 @@ This would not have been possible without the support from my 3rd MI Battalion e
 
 
 3rd is first!
->>>>>>> 4ff0483e74114519c850177197f2917c18c786f9
 
 
 
