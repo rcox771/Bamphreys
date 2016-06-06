@@ -38,7 +38,7 @@
   color: rgb(233, 30, 99);
   //border-bottom: none;
   text-transform: uppercase;
-  
+
 }
 
 tr {
@@ -49,14 +49,14 @@ tr {
 }
 
 tr .cRow {
-  
+
   //border-top:none!important;
   //color:blue!important;
 }
 
 .wtf .first-in-category {
   border-top: 1px solid rgba(0,0,0,.05)!important;
-  
+
 }
 
 .spacer {
@@ -87,3 +87,23 @@ tr .cRow {
     padding: 14px 16px;
     width: 100%!important;
 }
+
+
+label {
+    text-transform: uppercase;
+}
+
+table.table div.sortable {
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+table.table div.sortable i {
+    width: 13px;
+    margin-left: 7px;
+    display: inline-block;
+}
+

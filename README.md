@@ -17,11 +17,5 @@ This would not have been possible without the support from my 3rd MI Battalion e
 * Font-Awesome
 
 
-## TODO
 
-* add the weekend schedule in
-
-
-
-## License
 

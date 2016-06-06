@@ -30,26 +30,16 @@ function koView(){
     self.stopHandle = ko.observable("Arrive");
     self.descending = "fa fa-sort-desc fa-lg";
     self.ascending = "fa fa-sort-asc fa-lg";
-    self.swap = function(){
-        var start = self.start();
-        var stop = self.stop();
-        
-        self.start(stop);
-        self.stop(start);
-        
-        self.stopHandle("Arrive "+vm.stop());
-        self.startHandle("Depart "+vm.start());
+    self.isWeekend = ko.observable(isWeekend());
+    self.isWeekend.subscribe(function(){
+        self.dayType(self.isWeekend() ? "weekend":"weekday");
+        self.getRoutes();
+    });
+    self.refresh = function(){
+
         self.getRoutes();
     }
-    
-    
 
-    /*
-    <td data-bind="text: wait"></td>
-    <td data-bind="text: tlength"></td>
-    <td data-bind="text: depart"></td>
-    <td data-bind="text: arrive"></td>
-    */
 
     self.Column = function(prop, head, typ){
         var sself = this;
@@ -135,7 +125,7 @@ function koView(){
         }
         catch (err) {
             // Always remember to handle those errors that could occur during a user interaction
-            alert(err);
+            console.log(err);
         }
     };
 
@@ -170,7 +160,7 @@ function koView(){
         return (isNaN(current)) ? current.toLowerCase() : new Number(current);
     };
 
-    self.stations = ko.observable(self.schedule["stations"]);
+    self.stations = ko.observable(self.schedule["stations"].sort());
 
     self.getRoutes = function(){
         var dt = self.dayType(),
@@ -179,7 +169,7 @@ function koView(){
             timenow = curTime(),
             nowmins = toMins(timenow);
 
-
+        console.log('for daytype:', dt);
 
         //for each bus get the next time it comes to the start stop
         trips = [];
@@ -187,13 +177,14 @@ function koView(){
             times = self.schedule['daytype'][dt][colorId];
             var pcntr=0;
             if(times){
+                console.log("checking bus:"+colorId,times);
                 for(var i =0; i<times.length; i++){
                     if(pcntr==2){
                         break;
                     }
                     var station = times[i][0],
                         tmin = times[i][1];
-                    if( (station == st) && ((nowmins+100)>tmin) && (tmin>(nowmins-5)) ){
+                    if( (station == st) && ((nowmins+300)>tmin) && (tmin>(nowmins-5)) ){
                         var j = i,
                             depart = tmin;
                         while(j<times.length){
@@ -216,26 +207,13 @@ function koView(){
         });
         self.routes(trips);
 
-
-        //STOPPING POINT - data should be good now, hopefully?
-
-
-        /*
-        var times = Object.keys(stations[start_stop]);
-
-
-        times.push(timenow);
-        sorted = times.sort();
-
-
-        var idx = sorted.indexOf(timenow);
-        */
     }
 
     self.start = ko.observable(null);
     self.stop = ko.observable(null);
     //var voteable = (age < 18) ? "Too young":"Old enough";
-    self.dayType = ko.observable((isWeekend()) ? "weekend":"weekday");
+    self.daytypes = ko.observableArray(["weekday", "weekend"]);
+    self.dayType = ko.observable((self.isWeekend()) ? "weekend":"weekday");
 
 }
 
@@ -244,8 +222,8 @@ var x = document.getElementById("demo");
 
 function isWeekend(){
     var d = new Date().getDay();
-    //temporary quick fix //return (((d==0)||(d==6)));
-    return false;
+    return (((d==0)||(d==6)));
+    //return false;
 }
 
 function showPosition(position) {
@@ -354,100 +332,3 @@ function minsToNorm(mins){
     }
     return hours+remaining;
 }
-
-
-/*
-function getRoutes(start_stop,end_stop){
-    //var start_stop = viewModel.start;
-    //var end_stop = viewModel.stop;
-    var routes = [];
-    console.log('start:'+start_stop);
-    console.log('end:'+end_stop);
-    var timenow = curTime();
-    var nowmins = toMins(timenow);
-    console.log('Nowmins: '+nowmins);
-
-    var times = Object.keys(stations[start_stop]);
-
-
-    times.push(timenow);
-    sorted = times.sort();
-
-
-    var idx = sorted.indexOf(timenow);
-    var mostrecent = sorted[Math.max(idx-1,0)]
-
-    var by_bus = [];
-
-
-    console.log("most recent:"+stations[start_stop][mostrecent]+" ["+mostrecent+"]","time now:"+timenow);
-    console.log("next two times:");
-    by_bus.push({"bus":stations[start_stop][mostrecent], "busCol": stations[start_stop][mostrecent].toLowerCase().split(" ")[0], "busNum":stations[start_stop][mostrecent].split(" ")[1], "board":mostrecent,"note":"most recent"});
-    _.each(sorted.slice(idx+1,idx+3), function(t){
-        var thisbus = stations[start_stop][t];
-        var pickuptime = t;
-        by_bus.push({"bus":thisbus, "board":pickuptime, "busCol": thisbus.toLowerCase().split(" ")[0], "busNum":thisbus.split(" ")[1],"note":""})
-        console.log(stations[start_stop][t]+" could pick you up at "+t);
-    });
-
-
-    //label, bus/color, wait, trip time, estimated arrival
-
-
-
-    var arrival_times = Object.keys(stations[end_stop]);
-    arrival_times.push(timenow);
-    arrival_times = arrival_times.sort();
-    var new_idx = arrival_times.indexOf(timenow);
-    var available_arrivals = arrival_times.splice(new_idx+1,new_idx+6);
-    console.log("arrivals:", available_arrivals);
-
-    //for each bus and departure, find the corresponding arrival time
-
-
-    endstops_by_bus = {};
-    console.log(by_bus);
-    var end_station = stations[end_stop];
-    _.each(Object.keys(end_station), function(time_key){
-        this_bus = end_station[time_key];
-        if(!_.contains(Object.keys(endstops_by_bus), this_bus)){
-            endstops_by_bus[this_bus] = [];
-        }
-        endstops_by_bus[this_bus].push(time_key);
-
-    });
-
-    //match available arrival buses to departure buses
-    var ctr=0;
-    if(by_bus.length>0){
-        _.each(by_bus, function(x){
-                var thisbus_ = x['bus'];
-                if(_.contains(Object.keys(endstops_by_bus), thisbus_)){
-                    var board = x['board'];
-                    stops = endstops_by_bus[thisbus_];
-                    stops.push(board);
-                    stops = stops.sort();
-                    var idx = stops.indexOf(board);
-                    if(idx<stops.length){
-                        by_bus[ctr]["arrive"]=stops[idx+1];
-                    } else {
-                        by_bus.pop(ctr)
-                    }
-
-                }
-
-
-
-                ctr++;
-            });
-
-            return by_bus;
-    } else {
-        console.log("NO BUS ROUTES FOUND.");
-        return [];
-
-    }
-
-}
-
-*/
